@@ -19,12 +19,12 @@ export default function Scene() {
         camera={{ position: [0, 0, 5] }}
         style={{ position: "absolute", inset: 0, filter: "blur(60px)", transform: "scale(1.2)" }}
       >
-        <ambientLight intensity={0.5} />
-        <directionalLight position={[10, 10, 5]} intensity={1} />
+        <ambientLight intensity={0.15} />
+        <directionalLight position={[10, 10, 5]} intensity={0.3} />
         <directionalLight
           position={[-10, -10, -5]}
-          intensity={0.8}
-          color="#4338ca"
+          intensity={0.2}
+          color="#312e81"
         />
 
         <Float 
@@ -34,7 +34,7 @@ export default function Scene() {
         >
           <Sphere args={[1.8, 64, 64]}>
             <MeshDistortMaterial
-              color="#7c3aed"
+              color="#4c1d95"
               attach="material"
               distort={blobEnabled ? 0.5 : 0.1}
               speed={blobEnabled ? 0.8 : 0}
