@@ -17,29 +17,29 @@ export default function Scene() {
       {/* Three.js scene for the 3D sphere — renders first (bottom layer) */}
       <Canvas
         camera={{ position: [0, 0, 5] }}
-        style={{ position: "absolute", inset: 0 }}
+        style={{ position: "absolute", inset: 0, filter: "blur(60px)", transform: "scale(1.2)" }}
       >
-        <ambientLight intensity={0.2} />
+        <ambientLight intensity={0.5} />
         <directionalLight position={[10, 10, 5]} intensity={1} />
         <directionalLight
           position={[-10, -10, -5]}
-          intensity={0.5}
+          intensity={0.8}
           color="#4338ca"
         />
 
         <Float 
-          speed={blobEnabled ? 2.5 : 0} 
-          rotationIntensity={blobEnabled ? 1.5 : 0} 
-          floatIntensity={blobEnabled ? 2.5 : 0}
+          speed={blobEnabled ? 1 : 0} 
+          rotationIntensity={blobEnabled ? 0.5 : 0} 
+          floatIntensity={blobEnabled ? 1 : 0}
         >
-          <Sphere args={[1.5, 64, 64]}>
+          <Sphere args={[1.8, 64, 64]}>
             <MeshDistortMaterial
               color="#7c3aed"
               attach="material"
-              distort={blobEnabled ? 0.4 : 0.1}
-              speed={blobEnabled ? 2 : 0}
-              roughness={0.2}
-              metalness={0.8}
+              distort={blobEnabled ? 0.5 : 0.1}
+              speed={blobEnabled ? 0.8 : 0}
+              roughness={0.8}
+              metalness={0.1}
             />
           </Sphere>
         </Float>
