@@ -37,7 +37,7 @@ export default function UfoCompanion() {
   });
 
   return (
-    <div className="fixed top-20 right-4 md:right-16 z-0 md:z-50 pointer-events-none">
+    <div className="fixed top-20 right-4 md:right-16 z-0 pointer-events-none">
       <img
         ref={ufoRef}
         src={ufoImg}
