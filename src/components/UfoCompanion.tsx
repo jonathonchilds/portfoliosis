@@ -2,7 +2,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import ufoImg from "../assets/ufo.jpg";
+import ufoImg from "../assets/ufo.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -40,7 +40,7 @@ export default function UfoCompanion() {
     <div className="fixed top-20 right-4 md:right-16 z-50 pointer-events-none">
       <img
         ref={ufoRef}
-        src={ufoImg.replace('.jpg', '.png')}
+        src={ufoImg}
         alt="UFO Companion"
         className="w-32 md:w-48 opacity-90 transition-opacity duration-300 drop-shadow-2xl"
       />
