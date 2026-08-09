@@ -13,15 +13,33 @@ export default function UfoCompanion() {
   const { ufoEnabled } = useAnimationState();
   const roamTween = useRef<gsap.core.Tween | null>(null);
   const flameTween = useRef<gsap.core.Tween | null>(null);
+  const roamRef = useRef<(() => void) | null>(null);
+  const isInitialMount = useRef(true);
 
-  // Pause or resume animations based on toggle state
+  // Handle toggling on and off dynamically
   useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+
     if (ufoEnabled) {
-      roamTween.current?.resume();
+      roamTween.current?.kill();
       flameTween.current?.resume();
+      roamRef.current?.(); // Resume erratic roaming
     } else {
-      roamTween.current?.pause();
-      flameTween.current?.pause();
+      // Intercept the halt and zoom off screen!
+      roamTween.current?.kill();
+      roamTween.current = gsap.to(ufoWrapperRef.current, {
+        y: -window.innerHeight - 500, // Zoom way off the top
+        x: "+=800", // Bank hard right
+        rotation: 60,
+        duration: 1.5,
+        ease: "power2.in",
+        onComplete: () => {
+          flameTween.current?.pause(); // Pause flames only once it's completely gone
+        }
+      });
     }
   }, [ufoEnabled]);
 
@@ -42,17 +60,13 @@ export default function UfoCompanion() {
     const roam = () => {
       if (!ufoWrapperRef.current) return;
       
-      // Calculate a random destination, allowing it to go significantly off-screen
       const nextX = gsap.utils.random(-window.innerWidth / 2 - 300, window.innerWidth / 2 + 300);
       const nextY = gsap.utils.random(-window.innerHeight / 2 - 300, window.innerHeight / 2 + 300);
       
-      // The further it has to go, the longer it takes, keeping speed somewhat consistent
       const dist = Math.sqrt(Math.pow(nextX - currentX, 2) + Math.pow(nextY - currentY, 2));
-      const duration = Math.max(3, dist / 200); // 200 pixels per second roughly
+      const duration = Math.max(3, dist / 200); 
       
       const dx = nextX - currentX;
-      
-      // Bank into the turn based on horizontal travel
       const tilt = Math.max(-45, Math.min(45, dx / 15));
       
       roamTween.current = gsap.to(ufoWrapperRef.current, {
@@ -64,15 +78,17 @@ export default function UfoCompanion() {
         onComplete: roam
       });
       
-      // If user toggled it off right as we calculated a new tween, pause immediately
-      if (!ufoEnabled) {
-        roamTween.current?.pause();
-      }
-
       currentX = nextX;
       currentY = nextY;
     };
-    roam();
+    
+    // Store roam function so the useEffect can call it later
+    roamRef.current = roam;
+    
+    // Initial start
+    if (ufoEnabled) {
+      roam();
+    }
   });
 
   return (
