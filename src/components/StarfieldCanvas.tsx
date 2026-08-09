@@ -29,27 +29,64 @@ export default function StarfieldCanvas() {
       length: number;
       speed: number;
       angle: number;
-      opacity: number;
+      maxOpacity: number;
       thickness: number;
+      life: number;
+      maxLife: number;
+      fadeType: 'edge' | 'fade';
     }
     let shootingStars: ShootingStar[] = [];
 
     const spawnShootingStar = (): ShootingStar => {
-      // Angle: mostly top-right to bottom-left (approx 135 degrees / 2.35 radians)
-      // but randomized by a bit so they aren't all exactly parallel
-      const angle = 2.35 + (Math.random() * 0.8 - 0.4);
-      
       const hasTail = Math.random() > 0.3; // 70% have noticeable tails
       const length = hasTail ? (Math.random() * 200 + 50) : (Math.random() * 15 + 5);
       const speed = Math.random() * 30 + 10; // Mix of super quick and a bit slower
       const thickness = Math.random() * 2.5 + 0.5;
-      const opacity = Math.random() * 0.8 + 0.2; // From bright to very faint
+      const maxOpacity = Math.random() * 0.8 + 0.2; // From bright to very faint
       
-      // Spawn area: above the screen and to the right
-      const startX = Math.random() * canvas.width * 1.5;
-      const startY = -(Math.random() * 500 + length);
+      const fadeType = Math.random() > 0.5 ? 'edge' : 'fade';
+      const maxLife = Math.random() * 40 + 20; // Used for fade types
+      
+      let startX, startY, angle;
 
-      return { x: startX, y: startY, length, speed, angle, opacity, thickness };
+      if (fadeType === 'edge') {
+        const edge = Math.floor(Math.random() * 4);
+        if (edge === 0) { // top, flying down
+          startX = Math.random() * canvas.width;
+          startY = -length;
+          angle = Math.random() * Math.PI;
+        } else if (edge === 1) { // right, flying left
+          startX = canvas.width + length;
+          startY = Math.random() * canvas.height;
+          angle = Math.PI / 2 + Math.random() * Math.PI;
+        } else if (edge === 2) { // bottom, flying up
+          startX = Math.random() * canvas.width;
+          startY = canvas.height + length;
+          angle = Math.PI + Math.random() * Math.PI;
+        } else { // left, flying right
+          startX = -length;
+          startY = Math.random() * canvas.height;
+          angle = -Math.PI / 2 + Math.random() * Math.PI;
+        }
+      } else {
+        // middle of screen, fading in and out
+        startX = Math.random() * canvas.width;
+        startY = Math.random() * canvas.height;
+        angle = Math.random() * Math.PI * 2; // completely random direction
+      }
+
+      return { 
+        x: startX, 
+        y: startY, 
+        length, 
+        speed, 
+        angle, 
+        maxOpacity, 
+        thickness, 
+        life: 0, 
+        maxLife, 
+        fadeType 
+      };
     };
 
     const resize = () => {
@@ -94,6 +131,14 @@ export default function StarfieldCanvas() {
       for (let i = shootingStars.length - 1; i >= 0; i--) {
         const ss = shootingStars[i];
         
+        ss.life++;
+
+        let currentOpacity = ss.maxOpacity;
+        if (ss.fadeType === 'fade') {
+           const progress = ss.life / ss.maxLife;
+           currentOpacity = Math.sin(progress * Math.PI) * ss.maxOpacity;
+        }
+
         // Update position
         const vx = Math.cos(ss.angle) * ss.speed;
         const vy = Math.sin(ss.angle) * ss.speed;
@@ -106,7 +151,7 @@ export default function StarfieldCanvas() {
         const tailY = ss.y - Math.sin(ss.angle) * ss.length;
         
         const gradient = ctx.createLinearGradient(ss.x, ss.y, tailX, tailY);
-        gradient.addColorStop(0, `rgba(255, 255, 255, ${ss.opacity})`);
+        gradient.addColorStop(0, `rgba(255, 255, 255, ${currentOpacity})`);
         gradient.addColorStop(1, `rgba(255, 255, 255, 0)`);
         
         ctx.strokeStyle = gradient;
@@ -116,13 +161,15 @@ export default function StarfieldCanvas() {
         ctx.lineTo(tailX, tailY);
         ctx.stroke();
         
-        // Remove if off screen
-        if (
+        // Remove conditions
+        const isOffScreen = (
            ss.x < -ss.length || 
            ss.x > canvas.width + ss.length || 
            ss.y > canvas.height + ss.length || 
            ss.y < -ss.length
-        ) {
+        );
+        
+        if (isOffScreen || (ss.fadeType === 'fade' && ss.life >= ss.maxLife)) {
           shootingStars.splice(i, 1);
         }
       }
