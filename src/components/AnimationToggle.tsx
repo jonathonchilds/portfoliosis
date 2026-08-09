@@ -7,7 +7,7 @@ export default function AnimationToggle() {
     <div className="fixed top-4 right-4 z-50 flex border border-white/20 rounded-full overflow-hidden shadow-lg backdrop-blur-md">
       <button
         onClick={toggleUfo}
-        className={`px-4 py-2 text-xs md:text-sm font-semibold transition-colors duration-300 border-r border-white/20 ${
+        className={`cursor-pointer px-4 py-2 text-xs md:text-sm font-semibold transition-colors duration-300 border-r border-white/20 ${
           ufoEnabled
             ? 'bg-indigo-500/80 text-white'
             : 'bg-black/40 text-slate-400 hover:bg-white/10'
@@ -17,7 +17,7 @@ export default function AnimationToggle() {
       </button>
       <button
         onClick={toggleBlob}
-        className={`px-4 py-2 text-xs md:text-sm font-semibold transition-colors duration-300 ${
+        className={`cursor-pointer px-4 py-2 text-xs md:text-sm font-semibold transition-colors duration-300 ${
           blobEnabled
             ? 'bg-teal-500/80 text-white'
             : 'bg-black/40 text-slate-400 hover:bg-white/10'

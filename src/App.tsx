@@ -36,13 +36,13 @@ function App() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button 
               onClick={() => scrollTo('projects')}
-              className="px-8 py-4 bg-teal-500 hover:bg-teal-400 text-slate-900 font-bold rounded-full transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(45,212,191,0.4)]"
+              className="cursor-pointer px-8 py-4 bg-teal-500 hover:bg-teal-400 text-slate-900 font-bold rounded-full transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(45,212,191,0.4)]"
             >
               Explore My Work
             </button>
             <button 
               onClick={() => scrollTo('contact')}
-              className="px-8 py-4 bg-white/5 hover:bg-white/10 text-white font-semibold rounded-full border border-white/10 transition-all hover:scale-105"
+              className="cursor-pointer px-8 py-4 bg-white/5 hover:bg-white/10 text-white font-semibold rounded-full border border-white/10 transition-all hover:scale-105"
             >
               Start a Conversation
             </button>

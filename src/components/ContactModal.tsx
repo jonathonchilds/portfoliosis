@@ -91,7 +91,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
       >
         <button
           onClick={handleClose}
-          className="absolute top-6 right-6 text-slate-400 hover:text-white transition-colors"
+          className="cursor-pointer absolute top-6 right-6 text-slate-400 hover:text-white transition-colors"
           aria-label="Close"
         >
           <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -111,7 +111,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
             <p>Thanks for reaching out. I'll be in touch soon.</p>
             <button
               onClick={handleClose}
-              className="mt-6 px-6 py-2 bg-teal-500/20 hover:bg-teal-500/30 text-teal-300 font-medium rounded-full transition-colors"
+              className="cursor-pointer mt-6 px-6 py-2 bg-teal-500/20 hover:bg-teal-500/30 text-teal-300 font-medium rounded-full transition-colors"
             >
               Close
             </button>
@@ -169,7 +169,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
             <button
               type="submit"
               disabled={status === "submitting"}
-              className="mt-2 w-full px-8 py-4 bg-teal-500 hover:bg-teal-400 disabled:opacity-50 disabled:hover:bg-teal-500 text-slate-900 font-bold rounded-xl transition-all hover:shadow-[0_0_20px_rgba(45,212,191,0.4)] flex items-center justify-center"
+              className="cursor-pointer mt-2 w-full px-8 py-4 bg-teal-500 hover:bg-teal-400 disabled:opacity-50 disabled:hover:bg-teal-500 text-slate-900 font-bold rounded-xl transition-all hover:shadow-[0_0_20px_rgba(45,212,191,0.4)] flex items-center justify-center"
             >
               {status === "submitting" ? (
                 <span className="flex items-center gap-2">
