@@ -7,8 +7,11 @@ import {
   MeshDistortMaterial,
 } from "@react-three/drei";
 import StarfieldCanvas from "./StarfieldCanvas";
+import { useAnimationState } from "../context/AnimationContext";
 
 export default function Scene() {
+  const { blobEnabled } = useAnimationState();
+
   return (
     <div style={{ position: "fixed", inset: 0, zIndex: 0, background: "#020205" }}>
       {/* Three.js scene for the 3D sphere — renders first (bottom layer) */}
@@ -24,13 +27,17 @@ export default function Scene() {
           color="#4338ca"
         />
 
-        <Float speed={2.5} rotationIntensity={1.5} floatIntensity={2.5}>
+        <Float 
+          speed={blobEnabled ? 2.5 : 0} 
+          rotationIntensity={blobEnabled ? 1.5 : 0} 
+          floatIntensity={blobEnabled ? 2.5 : 0}
+        >
           <Sphere args={[1.5, 64, 64]}>
             <MeshDistortMaterial
               color="#7c3aed"
               attach="material"
-              distort={0.4}
-              speed={2}
+              distort={blobEnabled ? 0.4 : 0.1}
+              speed={blobEnabled ? 2 : 0}
               roughness={0.2}
               metalness={0.8}
             />
@@ -41,7 +48,7 @@ export default function Scene() {
         <OrbitControls
           enableZoom={false}
           enablePan={false}
-          autoRotate
+          autoRotate={blobEnabled}
           autoRotateSpeed={0.5}
         />
       </Canvas>

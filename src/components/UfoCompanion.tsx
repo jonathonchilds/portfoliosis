@@ -1,21 +1,36 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ufoImg from "../assets/ufo.png";
+import { useAnimationState } from "../context/AnimationContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function UfoCompanion() {
   const ufoWrapperRef = useRef<HTMLDivElement>(null);
   const flameRef = useRef<HTMLDivElement>(null);
+  const { ufoEnabled } = useAnimationState();
+  const roamTween = useRef<gsap.core.Tween | null>(null);
+  const flameTween = useRef<gsap.core.Tween | null>(null);
+
+  // Pause or resume animations based on toggle state
+  useEffect(() => {
+    if (ufoEnabled) {
+      roamTween.current?.resume();
+      flameTween.current?.resume();
+    } else {
+      roamTween.current?.pause();
+      flameTween.current?.pause();
+    }
+  }, [ufoEnabled]);
 
   useGSAP(() => {
     let currentX = 0;
     let currentY = 0;
 
     // Flicker the flame wildly
-    gsap.to(flameRef.current, {
+    flameTween.current = gsap.to(flameRef.current, {
       opacity: 0.4,
       scaleY: 0.8,
       duration: 0.05,
@@ -40,7 +55,7 @@ export default function UfoCompanion() {
       // Bank into the turn based on horizontal travel
       const tilt = Math.max(-45, Math.min(45, dx / 15));
       
-      gsap.to(ufoWrapperRef.current, {
+      roamTween.current = gsap.to(ufoWrapperRef.current, {
         x: nextX,
         y: nextY,
         rotation: tilt,
@@ -49,6 +64,11 @@ export default function UfoCompanion() {
         onComplete: roam
       });
       
+      // If user toggled it off right as we calculated a new tween, pause immediately
+      if (!ufoEnabled) {
+        roamTween.current?.pause();
+      }
+
       currentX = nextX;
       currentY = nextY;
     };

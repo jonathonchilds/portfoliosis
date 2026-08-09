@@ -4,6 +4,8 @@ import Capabilities from './components/Capabilities'
 import Philosophy from './components/Philosophy'
 import Contact from './components/Contact'
 import UfoCompanion from './components/UfoCompanion'
+import AnimationToggle from './components/AnimationToggle'
+
 function App() {
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
@@ -11,6 +13,7 @@ function App() {
 
   return (
     <main className="relative w-full text-slate-100 font-sans selection:bg-indigo-500/30 overflow-x-clip">
+      <AnimationToggle />
       <Scene />
       <UfoCompanion />
       
