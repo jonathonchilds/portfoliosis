@@ -16,7 +16,7 @@ export default function Contact() {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top bottom-=150",
-          toggleActions: "play none none reverse",
+          once: true,
         },
         y: 50,
         opacity: 0,

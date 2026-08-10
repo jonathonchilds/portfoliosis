@@ -40,7 +40,7 @@ export default function Capabilities() {
           scrollTrigger: {
             trigger: card,
             start: "top bottom-=100",
-            toggleActions: "play none none reverse",
+            once: true,
           },
           x: index % 2 === 0 ? -50 : 50,
           opacity: 0,

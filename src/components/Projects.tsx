@@ -35,7 +35,7 @@ export default function Projects() {
           scrollTrigger: {
             trigger: card,
             start: "top bottom-=100",
-            toggleActions: "play none none reverse",
+            once: true,
           },
           y: 100,
           opacity: 0,
