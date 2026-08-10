@@ -60,8 +60,8 @@ export default function UfoCompanion() {
     const roam = () => {
       if (!ufoWrapperRef.current) return;
       
-      const nextX = gsap.utils.random(-window.innerWidth / 2 - 300, window.innerWidth / 2 + 300);
-      const nextY = gsap.utils.random(-window.innerHeight / 2 - 300, window.innerHeight / 2 + 300);
+      const nextX = gsap.utils.random(-window.innerWidth / 2 - 800, window.innerWidth / 2 + 800);
+      const nextY = gsap.utils.random(-window.innerHeight / 2 - 800, window.innerHeight / 2 + 800);
       
       const dist = Math.sqrt(Math.pow(nextX - currentX, 2) + Math.pow(nextY - currentY, 2));
       const duration = Math.max(3, dist / 200); 
