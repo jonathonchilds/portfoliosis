@@ -69,11 +69,14 @@ export default function UfoCompanion() {
       const dx = nextX - currentX;
       const tilt = Math.max(-45, Math.min(45, dx / 15));
       
+      const delayTime = Math.random() * 8 + 4; // Rest for 4 to 12 seconds between movements
+      
       roamTween.current = gsap.to(ufoWrapperRef.current, {
         x: nextX,
         y: nextY,
         rotation: tilt,
         duration: duration,
+        delay: delayTime,
         ease: "sine.inOut",
         onComplete: roam
       });

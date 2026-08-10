@@ -123,7 +123,7 @@ export default function StarfieldCanvas() {
       }
 
       // Shooting stars logic
-      if (Math.random() < 0.005 && shootingStars.length < 2) {
+      if (Math.random() < 0.001 && shootingStars.length < 1) {
         // Occasionally spawn a shooting star
         shootingStars.push(spawnShootingStar());
       }
