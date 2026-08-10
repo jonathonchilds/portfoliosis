@@ -1,30 +1,16 @@
-import { useRef } from "react";
+import { useState, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { projectsData } from "../data/portfolioData";
+import type { ProjectData } from "../data/portfolioData";
+import CaseStudyModal from "./CaseStudyModal";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const projects = [
-  {
-    title: "Global E-Commerce Engine",
-    description: "A highly available, microservices-driven retail platform processing thousands of transactions concurrently.",
-    tags: ["React", ".NET Core", "SQL Server"],
-  },
-  {
-    title: "Immersive WebGL Product Showcase",
-    description: "An interactive, 3D landing page utilizing custom shaders to drive user engagement and conversion.",
-    tags: ["Three.js", "React Three Fiber", "GSAP"],
-  },
-  {
-    title: "Real-Time FinTech Analytics",
-    description: "A low-latency dashboard streaming millions of market data points via WebSockets for institutional traders.",
-    tags: ["WebSockets", "D3.js", "Redis"],
-  },
-];
-
 export default function Projects() {
   const containerRef = useRef<HTMLElement>(null);
+  const [selectedProject, setSelectedProject] = useState<ProjectData | null>(null);
 
   useGSAP(
     () => {
@@ -58,10 +44,11 @@ export default function Projects() {
         Engineering Showcase
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {projects.map((project, idx) => (
+        {projectsData.map((project) => (
           <div
-            key={idx}
-            className="project-card flex flex-col backdrop-blur-2xl bg-slate-900/60 border border-white/20 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] p-8 rounded-3xl hover:bg-slate-900/80 transition-all group hover:-translate-y-1 hover:shadow-2xl"
+            key={project.id}
+            onClick={() => setSelectedProject(project)}
+            className="cursor-pointer project-card flex flex-col backdrop-blur-2xl bg-slate-900/60 border border-white/20 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] p-8 rounded-3xl hover:bg-slate-900/80 transition-all group hover:-translate-y-1 hover:shadow-2xl hover:border-teal-500/50"
           >
             <div className="w-full h-48 bg-white/5 rounded-2xl mb-6 flex items-center justify-center border border-white/5 group-hover:border-teal-500/30 transition-colors">
               <span className="text-slate-500 text-sm italic">Screenshot Placeholder</span>
@@ -85,6 +72,12 @@ export default function Projects() {
           </div>
         ))}
       </div>
+
+      <CaseStudyModal 
+        isOpen={!!selectedProject} 
+        onClose={() => setSelectedProject(null)} 
+        project={selectedProject} 
+      />
     </section>
   );
 }

@@ -5,6 +5,7 @@ import Philosophy from './components/Philosophy'
 import Contact from './components/Contact'
 import UfoCompanion from './components/UfoCompanion'
 import AnimationToggle from './components/AnimationToggle'
+import { heroData } from './data/portfolioData'
 
 function App() {
   const scrollTo = (id: string) => {
@@ -25,13 +26,13 @@ function App() {
         
         <div className="relative pointer-events-auto backdrop-blur-md bg-gradient-to-b from-white/5 to-transparent border-t border-t-white/20 border-x border-x-white/10 border-b border-b-white/5 p-10 md:p-16 rounded-[3rem] shadow-[0_30px_60px_-15px_rgba(0,0,0,0.5),inset_0_1px_0_rgba(255,255,255,0.2)] text-center max-w-3xl transform transition-all hover:scale-[1.02] duration-500 ring-1 ring-white/5">
           <div className="inline-block px-4 py-1.5 mb-6 rounded-full border border-teal-400/30 bg-teal-400/10 text-teal-300 text-sm font-medium tracking-wide uppercase">
-            Full-Stack Software Engineer
+            {heroData.title}
           </div>
           <h1 className="text-5xl md:text-7xl font-extrabold bg-gradient-to-br from-indigo-300 via-teal-200 to-indigo-500 bg-clip-text text-transparent mb-6 tracking-tight drop-shadow-[0_8px_20px_rgba(0,0,0,0.9)]">
-            Architecting the Modern Web
+            {heroData.heading}
           </h1>
           <p className="text-lg md:text-2xl text-slate-300 mb-10 leading-relaxed drop-shadow-[0_4px_8px_rgba(0,0,0,0.9)]">
-            I engineer scalable backend systems and immersive, high-performance frontends that push the boundaries of the browser.
+            {heroData.subheading}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button 

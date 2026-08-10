@@ -2,6 +2,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { philosophyData } from "../data/portfolioData";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -40,20 +41,29 @@ export default function Philosophy() {
         </h2>
 
         <div className="space-y-8 relative z-10">
-          <p className="text-xl text-slate-300 leading-relaxed">
-            <span className="font-semibold text-teal-300">
-              Engineering is a team sport.
-            </span>{" "}
-            I believe in natural leadership—scaling teams by actively mentoring,
-            establishing robust documentation, and cultivating genuine
-            friendships that extend far beyond the workplace.
-          </p>
-          <p className="text-xl text-slate-300 leading-relaxed">
-            For me, software development isn't just a job; it's a major priority
-            and a defining passion in my life. I take immense pride in
-            translating complex business requirements into elegant technical
-            solutions, and I bring that energy to every team I join.
-          </p>
+          {philosophyData.map((paragraph, index) => {
+            // Highlighting the first sentence of the first paragraph, if desired
+            if (index === 0) {
+              const firstPeriod = paragraph.indexOf('.');
+              if (firstPeriod !== -1) {
+                const highlight = paragraph.slice(0, firstPeriod + 1);
+                const rest = paragraph.slice(firstPeriod + 1);
+                return (
+                  <p key={index} className="text-xl text-slate-300 leading-relaxed">
+                    <span className="font-semibold text-teal-300">
+                      {highlight}
+                    </span>
+                    {rest}
+                  </p>
+                );
+              }
+            }
+            return (
+              <p key={index} className="text-xl text-slate-300 leading-relaxed">
+                {paragraph}
+              </p>
+            );
+          })}
         </div>
       </div>
     </section>
