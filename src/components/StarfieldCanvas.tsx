@@ -40,12 +40,12 @@ export default function StarfieldCanvas() {
     const spawnShootingStar = (): ShootingStar => {
       const hasTail = Math.random() > 0.3; // 70% have noticeable tails
       const length = hasTail ? (Math.random() * 200 + 50) : (Math.random() * 15 + 5);
-      const speed = Math.random() * 30 + 10; // Mix of super quick and a bit slower
+      const speed = Math.random() * 8 + 2; // Much slower
       const thickness = Math.random() * 2.5 + 0.5;
       const maxOpacity = Math.random() * 0.8 + 0.2; // From bright to very faint
       
       const fadeType = Math.random() > 0.5 ? 'edge' : 'fade';
-      const maxLife = Math.random() * 40 + 20; // Used for fade types
+      const maxLife = Math.random() * 150 + 100; // Much longer life for slower speeds
       
       let startX, startY, angle;
 
@@ -123,7 +123,7 @@ export default function StarfieldCanvas() {
       }
 
       // Shooting stars logic
-      if (Math.random() < 0.03 && shootingStars.length < 5) {
+      if (Math.random() < 0.005 && shootingStars.length < 2) {
         // Occasionally spawn a shooting star
         shootingStars.push(spawnShootingStar());
       }
